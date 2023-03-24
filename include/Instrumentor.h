@@ -83,8 +83,11 @@ public:
         for (auto res: profiledata) {
             WriteProfile(res);
         }
+        if (output_format == "csv") {
+            m_OutputStream << "cat,name,count" << std::endl;            
+        }
         for (auto ctr: counterdata) {
-            writeCounter(ctr);
+            WriteCounter(ctr.second);
         }
         WriteFooter();
         m_OutputStream.close();
@@ -101,20 +104,28 @@ public:
         counterdata[cntr.Name] = cntr;
     }
 
-    void writeCounter(const CounterRecord& cntr) {
+    bool counterExists(const std::string& name) {
+        return counterdata.count(name) > 0;
+    }
+
+    void WriteCounter(const CounterRecord& cntr) {
         if (output_format == "json") {
             if (m_counterCount++ > 0) {
                 m_OutputStream << "," << std::endl;
             }
             std::string name = cntr.Name;
             std::replace(name.begin(), name.end(), '"', '\'');
-        
             m_OutputStream << "{";
             m_OutputStream << "\"cat\":\"counter\",";
             m_OutputStream << "\"name\":\"" << name << "\",";
             m_OutputStream << "\"count\":\"" << cntr.count << "\",";
             m_OutputStream << "}";
-            
+        }
+        else if (output_format == "csv") {
+            m_OutputStream << "counter" << "," << cntr.Name << "," << cntr.count << std::endl;
+        }
+        else {
+            m_OutputStream << "cat: counter name:" << cntr.Name << " count: " << cntr.count << std::endl;
         }
     }
 
@@ -197,19 +208,35 @@ public:
 
     void Stop()
     {
-        auto endTimepoint = std::chrono::high_resolution_clock::now();
+        m_StopTimePointer = std::chrono::high_resolution_clock::now();
 
         long long start = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_StartTimepoint).time_since_epoch().count();
-        long long end = std::chrono::time_point_cast<std::chrono::nanoseconds>(endTimepoint).time_since_epoch().count();
+        long long end = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_StopTimePointer).time_since_epoch().count();
 
         uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        Instrumentor::Get().recordProfile({ m_Name, start, end, threadID });
+        struct ProfileResult pr;
+        pr.Name = m_Name;
+        pr.Start = start;
+        pr.End = end;
+        pr.ThreadID =  threadID;
+        Instrumentor::Get().recordProfile(pr);
 
         m_Stopped = true;
     }
+
+    long long duration() {
+        auto endTimepoint = m_StopTimePointer;
+        if (!m_Stopped) {
+            endTimepoint = std::chrono::high_resolution_clock::now();
+        }
+        long long start = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_StartTimepoint).time_since_epoch().count();
+        long long end = std::chrono::time_point_cast<std::chrono::nanoseconds>(endTimepoint).time_since_epoch().count();
+        return end-start;
+    }
+    
 private:
     const char* m_Name;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint, m_StopTimePointer;
     bool m_Stopped;
 };
 
@@ -217,12 +244,21 @@ class InstrumentationCounter {
     private:
     std::string name;
     public:
-    InstrumentationCounter(std::string n): name(n) {
-        Instrumentor::Get().writeCounter({name,0});
+    InstrumentationCounter(const std::string& n): name(n) {
+        if (!Instrumentor::Get().counterExists(n)) {
+            reset(name);
+        }
+    }
+    void reset(const std::string& n) {
+        Instrumentor::Get().recordCounter({name,0});
     }
     InstrumentationCounter operator ++() {
         Instrumentor::Get().getCounter(name).count++;
-    } 
-    ~InstrumentationCounter() {
+        return *this;
     }
+    InstrumentationCounter operator ++(int) {
+        Instrumentor::Get().getCounter(name).count++;
+        return *this;
+    } 
+
 };
