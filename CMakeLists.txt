@@ -4,6 +4,7 @@ project(instrumentation)
 
 add_library(instrumentation STATIC
     src/FunctionTimer.cpp
+    src/Instrumentor.cpp
 )
 
 target_include_directories(instrumentation PUBLIC include)

@@ -14,5 +14,5 @@ cd build
 ## Using library
 ```
 add_executable(myapp main.cpp)
-target_include_directories(myapp PRIVATE /path/to/mylibrary)A
+target_include_directories(myapp PRIVATE /path/to/mylibrary)
 ```
