@@ -40,7 +40,7 @@ auto Timer::getEnd()
     return m_StartTimepoint;
 }
 
-operator Timer::std::string() const
+Timer::operator std::string() const
 {
     std::stringstream ss;
     auto t_s = std::chrono::system_clock::to_time_t(m_StartTimepoint);

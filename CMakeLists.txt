@@ -5,9 +5,15 @@ project(instrumentation)
 add_library(instrumentation STATIC
     src/FunctionTimer.cpp
     src/Instrumentor.cpp
+    src/timer.cpp
 )
 
 target_include_directories(instrumentation PUBLIC include)
+
+set_target_properties(instrumentation PROPERTIES
+    IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/build/libinstrumentation.a
+    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 set(GTEST_ROOT test)
 find_package(GTest REQUIRED)
