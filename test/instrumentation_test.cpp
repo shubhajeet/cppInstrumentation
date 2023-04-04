@@ -1,5 +1,5 @@
 #include "functiontimer.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "eventcounter.hpp"
 
 TEST(InstrumentationibraryTest, FunctionTimer)
