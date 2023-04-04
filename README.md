@@ -13,6 +13,10 @@ cd build
 ```
 ## Using library
 ```
+set(MYLIBRARY_DIR /home/sujit/projects/instrumentation)
+include_directories(${MYLIBRARY_DIR}/include)
+link_directories(${MYLIBRARY_DIR}/build)
+
 add_executable(myapp main.cpp)
-target_include_directories(myapp PRIVATE /path/to/mylibrary)
+target_include_directories(myapp PRIVATE instrumentation)
 ```
