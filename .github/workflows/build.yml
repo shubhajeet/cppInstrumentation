@@ -17,10 +17,6 @@ jobs:
     - name: Set up CMake and gtest
       run: |
         sudo apt-get -y install cmake libgtest-dev
-        cd /usr/src/gtest
-        sudo cmake CMakeLists.txt
-        sudo make
-        sudo cp *.a /usr/lib
     - name: Build library and tests
       run: |
         mkdir build
