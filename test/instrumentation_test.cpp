@@ -1,12 +1,5 @@
-#include "functiontimer.hpp"
 #include <gtest/gtest.h>
 #include "eventcounter.hpp"
-
-TEST(InstrumentationibraryTest, FunctionTimer)
-{
-    // Test case code here
-    ASSERT_TRUE(true);
-}
 
 TEST(EventCounterTest, CountEvents)
 {
