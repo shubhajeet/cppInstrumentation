@@ -25,5 +25,5 @@ jobs:
         make
     - name: Run tests
       run: |
-        ./test/mylibrary_test
+        ./build/mylibrary_test
 
