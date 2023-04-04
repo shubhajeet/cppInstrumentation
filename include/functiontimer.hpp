@@ -1,12 +1,20 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <chrono>
+
+#ifdef INSTRUMENTATION
+#define INS_BLOCK() if constexp (true)
+#else
+#define INS_BLOCK() if constexp (false)
+#endif
+
 class AvgFunctionTimer
 {
 public:
     AvgFunctionTimer(const std::string &name);
     ~AvgFunctionTimer();
-    void recordDuration(std::chrono::microseconds duration);
+    void recordDuration(std::chrono::nanoseconds duration);
 
 private:
     std::string m_name;
@@ -29,14 +37,16 @@ private:
 class CodeTimer
 {
 public:
-    CodeTimer();
+    CodeTimer(std::string name);
     void start();
     void end();
     double getAvgExecutionTime();
+    ~CodeTimer();
 
 private:
+    std::string name;
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
     std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
-    std::chrono::microseconds totalDuration{0};
+    std::chrono::nanoseconds totalDuration{0};
     int numExecutions{0};
 };

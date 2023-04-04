@@ -4,10 +4,10 @@ AvgFunctionTimer::AvgFunctionTimer(const std::string &name)
 
 AvgFunctionTimer::~AvgFunctionTimer()
 {
-    std::cout << m_name << " took an average of " << m_totalTime / m_count << " microseconds over " << m_count << " calls." << std::endl;
+    std::cout << "Function name: " << m_name << " total_time: " << m_totalTime << " avg time: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
-void AvgFunctionTimer::recordDuration(std::chrono::microseconds duration)
+void AvgFunctionTimer::recordDuration(std::chrono::nanoseconds duration)
 {
     m_totalTime += duration.count();
     m_count++;
@@ -19,13 +19,13 @@ FunctionTimer::FunctionTimer(const std::string &name, AvgFunctionTimer &avgTimer
 FunctionTimer::~FunctionTimer()
 {
     auto endTime = std::chrono::high_resolution_clock::now();
-    auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTime).time_since_epoch().count();
-    auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTime).time_since_epoch().count();
+    auto start = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_startTime).time_since_epoch().count();
+    auto end = std::chrono::time_point_cast<std::chrono::nanoseconds>(endTime).time_since_epoch().count();
     auto duration = end - start;
-    m_avgTimer.recordDuration(std::chrono::microseconds(duration));
+    m_avgTimer.recordDuration(std::chrono::nanoseconds(duration));
 }
 
-CodeTimer::CodeTimer() {}
+CodeTimer::CodeTimer(std::string name) : name(name) {}
 
 void CodeTimer::start()
 {
@@ -35,7 +35,7 @@ void CodeTimer::start()
 void CodeTimer::end()
 {
     endTime = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
     totalDuration += duration;
     numExecutions++;
 }
@@ -50,4 +50,9 @@ double CodeTimer::getAvgExecutionTime()
     {
         return totalDuration.count() / static_cast<double>(numExecutions);
     }
+}
+
+CodeTimer::~CodeTimer()
+{
+    std::cout << " CodeBlock: " << name << " Total Time: " << totalDuration.count() << " Count: " << numExecutions << " Avg Time: " << getAvgExecutionTime() << std::endl;
 }
