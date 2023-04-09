@@ -56,3 +56,51 @@ CodeTimer::~CodeTimer()
 {
     std::cout << " CodeBlock: " << name << " Total Time: " << totalDuration.count() << " Count: " << numExecutions << " Avg Time: " << getAvgExecutionTime() << std::endl;
 }
+
+TSCAvgFunctionTimer::TSCAvgFunctionTimer(const std::string &name)
+    : m_name(name), m_count(0), m_totalTime(0) {}
+
+TSCAvgFunctionTimer::~TSCAvgFunctionTimer() {}
+
+void TSCAvgFunctionTimer::recordDuration(double duration)
+{
+    ++m_count;
+    m_totalTime += duration;
+    std::cout << "Function '" << m_name << "' took " << duration << " cycles on average over " << m_count << " calls.\n";
+}
+
+TSCFunctionTimer::TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer)
+    : m_name(name), m_avgTimer(avgTimer), m_startTime(__rdtsc()) {}
+
+TSCFunctionTimer::~TSCFunctionTimer()
+{
+    unsigned long long endTime = __rdtsc();
+    double duration = static_cast<double>(endTime - m_startTime);
+    m_avgTimer.recordDuration(duration);
+}
+
+TSCCodeTimer::TSCCodeTimer(std::string name)
+    : name(name), startTime(0), endTime(0), totalDuration(0), numExecutions(0) {}
+
+void TSCCodeTimer::start()
+{
+    startTime = __rdtsc();
+}
+
+void TSCCodeTimer::end()
+{
+    endTime = __rdtsc();
+    double duration = static_cast<double>(endTime - startTime);
+    totalDuration += duration;
+    ++numExecutions;
+}
+
+double TSCCodeTimer::getAvgExecutionTime()
+{
+    return totalDuration / numExecutions;
+}
+
+TSCCodeTimer::~TSCCodeTimer()
+{
+    std::cout << "Code block '" << name << "' took " << totalDuration << " cycles in total over " << numExecutions << " executions, with an average of " << getAvgExecutionTime() << " cycles.\n";
+}

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <x86intrin.h>
 
 #ifdef INSTRUMENTATION
 #define INS_BLOCK() if constexp (true)
@@ -48,5 +49,47 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
     std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
     std::chrono::nanoseconds totalDuration{0};
+    int numExecutions{0};
+};
+
+class TSCAvgFunctionTimer
+{
+public:
+    TSCAvgFunctionTimer(const std::string &name);
+    ~TSCAvgFunctionTimer();
+    void recordDuration(double duration);
+
+private:
+    std::string m_name;
+    int m_count;
+    double m_totalTime;
+};
+
+class TSCFunctionTimer
+{
+public:
+    TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer);
+    ~TSCFunctionTimer();
+
+private:
+    std::string m_name;
+    TSCAvgFunctionTimer &m_avgTimer;
+    unsigned long long m_startTime;
+};
+
+class TSCCodeTimer
+{
+public:
+    TSCCodeTimer(std::string name);
+    void start();
+    void end();
+    double getAvgExecutionTime();
+    ~TSCCodeTimer();
+
+private:
+    std::string name;
+    unsigned long long startTime;
+    unsigned long long endTime;
+    double totalDuration{0};
     int numExecutions{0};
 };

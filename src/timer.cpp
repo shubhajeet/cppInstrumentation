@@ -48,3 +48,20 @@ Timer::operator std::string() const
     ss << "Start: " << std::put_time(std::localtime(&t_s), "%F %T") << " End: " << std::put_time(std::localtime(&t_e), "%F %T") << " Duration: " << m_duration;
     return ss.str();
 }
+
+TSCTimer::TSCTimer()
+{
+    asm volatile("rdtsc"
+                 : "=a"(start_cycles_low), "=d"(start_cycles_high));
+    start_cycles = (static_cast<unsigned long long>(start_cycles_high) << 32) | start_cycles_low;
+}
+
+TSCTimer::~TSCTimer()
+{
+    asm volatile("rdtsc"
+                 : "=a"(end_cycles_low), "=d"(end_cycles_high));
+    end_cycles = (static_cast<unsigned long long>(end_cycles_high) << 32) | end_cycles_low;
+    unsigned long long elapsed_cycles = end_cycles - start_cycles;
+    double elapsed_time_ns = elapsed_cycles / (double)2800000000 * 1000000000;
+    std::cout << "Elapsed time: " << elapsed_time_ns << " ns" << std::endl;
+}

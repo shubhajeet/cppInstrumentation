@@ -27,3 +27,14 @@ private:
     bool m_Stopped;
     long long m_duration;
 };
+
+class TSCTimer
+{
+public:
+    TSCTimer();
+    ~TSCTimer();
+
+private:
+    unsigned int start_cycles_low, start_cycles_high, end_cycles_low, end_cycles_high;
+    unsigned long long start_cycles, end_cycles;
+};
