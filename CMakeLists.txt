@@ -15,9 +15,13 @@ set_target_properties(instrumentation PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-set(GTEST_ROOT test)
+enable_testing()
+
+# set(GTEST_ROOT test)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(mylibrary_test test/instrumentation_test.cpp)
 target_link_libraries(mylibrary_test instrumentation GTest::GTest GTest::Main)
+
+add_test(NAME mylibrary_test COMMAND mylibrary_test)
