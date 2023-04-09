@@ -4,7 +4,7 @@ AvgFunctionTimer::AvgFunctionTimer(const std::string &name)
 
 AvgFunctionTimer::~AvgFunctionTimer()
 {
-    std::cout << "Function name: " << m_name << " total_time: " << m_totalTime << " avg time: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+    std::cout << "function_name: " << m_name << " total_time: " << m_totalTime << " avg_time: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 void AvgFunctionTimer::recordDuration(std::chrono::nanoseconds duration)
@@ -54,7 +54,7 @@ double CodeTimer::getAvgExecutionTime()
 
 CodeTimer::~CodeTimer()
 {
-    std::cout << " CodeBlock: " << name << " Total Time: " << totalDuration.count() << " Count: " << numExecutions << " Avg Time: " << getAvgExecutionTime() << std::endl;
+    std::cout << " CodeBlock: " << name << " total_time: " << totalDuration.count() << " count: " << numExecutions << " avg_time: " << getAvgExecutionTime() << std::endl;
 }
 
 TSCAvgFunctionTimer::TSCAvgFunctionTimer(const std::string &name)
@@ -66,7 +66,7 @@ void TSCAvgFunctionTimer::recordDuration(double duration)
 {
     ++m_count;
     m_totalTime += duration;
-    std::cout << "Function '" << m_name << "' took " << duration << " cycles on average over " << m_count << " calls.\n";
+    std::cout << "function_name: " << m_name << "' total_cycles: " << duration << " avg_time: " << duration / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 TSCFunctionTimer::TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer)
@@ -97,10 +97,17 @@ void TSCCodeTimer::end()
 
 double TSCCodeTimer::getAvgExecutionTime()
 {
-    return totalDuration / numExecutions;
+    if (numExecutions == 0)
+    {
+        return 0.0;
+    }
+    else
+    {
+        return totalDuration / static_cast<double>(numExecutions);
+    }
 }
 
 TSCCodeTimer::~TSCCodeTimer()
 {
-    std::cout << "Code block '" << name << "' took " << totalDuration << " cycles in total over " << numExecutions << " executions, with an average of " << getAvgExecutionTime() << " cycles.\n";
+    std::cout << "CodeBlock: " << name << " total_cycles: " << totalDuration << " count: " << numExecutions << " avg_cycle: " << getAvgExecutionTime() << std::endl;
 }
