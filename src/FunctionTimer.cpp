@@ -66,7 +66,7 @@ void TSCAvgFunctionTimer::recordDuration(double duration)
 {
     ++m_count;
     m_totalTime += duration;
-    std::cout << "Function '" << m_name << "' took " << duration << " cycles on average over " << m_count << " calls.\n";
+    // std::cout << "Function '" << m_name << "' took " << duration << " cycles on average over " << m_count << " calls.\n";
 }
 
 TSCFunctionTimer::TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer)
