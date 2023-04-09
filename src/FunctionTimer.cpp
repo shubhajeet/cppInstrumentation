@@ -60,13 +60,16 @@ CodeTimer::~CodeTimer()
 TSCAvgFunctionTimer::TSCAvgFunctionTimer(const std::string &name)
     : m_name(name), m_count(0), m_totalTime(0) {}
 
-TSCAvgFunctionTimer::~TSCAvgFunctionTimer() {}
+TSCAvgFunctionTimer::~TSCAvgFunctionTimer()
+{
+    std::cout << "function_name: " << m_name << " total_cycles: " << m_totalTime << " avg_cycle: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+}
 
 void TSCAvgFunctionTimer::recordDuration(double duration)
 {
     ++m_count;
     m_totalTime += duration;
-    std::cout << "function_name: " << m_name << "' total_cycles: " << duration << " avg_time: " << duration / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+    // std::cout << "function_name: " << m_name << " total_cycles: " << duration << " avg_time: " << duration / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 TSCFunctionTimer::TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer)
