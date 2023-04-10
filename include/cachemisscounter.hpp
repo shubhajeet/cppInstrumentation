@@ -36,3 +36,24 @@ private:
     uint64_t total_cache_misses_;
     uint64_t num_samples_;
 };
+
+class ScopeCacheMissCounter
+{
+public:
+    ScopeCacheMissCounter(const std::string &name);
+    ~ScopeCacheMissCounter();
+
+private:
+    std::string m_name;
+    CacheMissCounter m_counter;
+};
+
+class ScopeAvgCacheMissCounter
+{
+public:
+    ScopeAvgCacheMissCounter(AvgCacheMissCounter &avgCounter);
+    ~ScopeAvgCacheMissCounter();
+
+private:
+    AvgCacheMissCounter &m_avgCounter;
+};

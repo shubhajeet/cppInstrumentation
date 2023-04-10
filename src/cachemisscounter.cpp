@@ -63,7 +63,7 @@ AvgCacheMissCounter::AvgCacheMissCounter(const std::string name)
 
 AvgCacheMissCounter::~AvgCacheMissCounter()
 {
-    std::cout << "Instrumentation CodeBlock: " << name_ << " total_count: " << total_cache_misses_ << " average_cache_misses: " << get_avg_cache_misses() << std::endl;
+    std::cout << "Instrumentation Function: " << name_ << " cache_misses: " << total_cache_misses_ << " count: " << num_samples_ << " avg_cache_misses: " << get_avg_cache_misses() << std::endl;
 }
 
 void AvgCacheMissCounter::start()
@@ -85,4 +85,27 @@ double AvgCacheMissCounter::get_avg_cache_misses() const
         return 0.0;
     }
     return static_cast<double>(total_cache_misses_) / static_cast<double>(num_samples_);
+}
+
+ScopeCacheMissCounter::ScopeCacheMissCounter(const std::string &name)
+    : m_name(name)
+{
+    m_counter.start();
+}
+
+ScopeCacheMissCounter::~ScopeCacheMissCounter()
+{
+    m_counter.stop();
+    std::cout << "Instrumentation Function: " << m_name << " cache_misses: " << m_counter.get_cache_misses() << std::endl;
+}
+
+ScopeAvgCacheMissCounter::ScopeAvgCacheMissCounter(AvgCacheMissCounter &avgCounter)
+    : m_avgCounter(avgCounter)
+{
+    m_avgCounter.start();
+}
+
+ScopeAvgCacheMissCounter::~ScopeAvgCacheMissCounter()
+{
+    m_avgCounter.stop();
 }
