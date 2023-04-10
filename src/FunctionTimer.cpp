@@ -4,7 +4,8 @@ AvgFunctionTimer::AvgFunctionTimer(const std::string &name)
 
 AvgFunctionTimer::~AvgFunctionTimer()
 {
-    std::cout << "function_name: " << m_name << " total_time: " << m_totalTime << " avg_time: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+    std::cout << "Instrument "
+              << "function_name: " << m_name << " total_time: " << m_totalTime << " avg_time: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 void AvgFunctionTimer::recordDuration(std::chrono::nanoseconds duration)
@@ -54,7 +55,8 @@ double CodeTimer::getAvgExecutionTime()
 
 CodeTimer::~CodeTimer()
 {
-    std::cout << " CodeBlock: " << name << " total_time: " << totalDuration.count() << " count: " << numExecutions << " avg_time: " << getAvgExecutionTime() << std::endl;
+    std::cout << "Instrument "
+              << " CodeBlock: " << name << " total_time: " << totalDuration.count() << " count: " << numExecutions << " avg_time: " << getAvgExecutionTime() << std::endl;
 }
 
 TSCAvgFunctionTimer::TSCAvgFunctionTimer(const std::string &name)
@@ -62,14 +64,15 @@ TSCAvgFunctionTimer::TSCAvgFunctionTimer(const std::string &name)
 
 TSCAvgFunctionTimer::~TSCAvgFunctionTimer()
 {
-    std::cout << "function_name: " << m_name << " total_cycles: " << m_totalTime << " avg_cycle: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+    std::cout << "Instrument "
+              << "function_name: " << m_name << " total_cycles: " << m_totalTime << " avg_cycle: " << m_totalTime / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 void TSCAvgFunctionTimer::recordDuration(double duration)
 {
     ++m_count;
     m_totalTime += duration;
-    // std::cout << "function_name: " << m_name << " total_cycles: " << duration << " avg_time: " << duration / static_cast<double>(m_count) << " count: " << m_count << std::endl;
+    // std::cout << "Instrument " << "function_name: " << m_name << " total_cycles: " << duration << " avg_time: " << duration / static_cast<double>(m_count) << " count: " << m_count << std::endl;
 }
 
 TSCFunctionTimer::TSCFunctionTimer(const std::string &name, TSCAvgFunctionTimer &avgTimer)
@@ -112,5 +115,6 @@ double TSCCodeTimer::getAvgExecutionTime()
 
 TSCCodeTimer::~TSCCodeTimer()
 {
-    std::cout << "CodeBlock: " << name << " total_cycles: " << totalDuration << " count: " << numExecutions << " avg_cycle: " << getAvgExecutionTime() << std::endl;
+    std::cout << "Instrument "
+              << "CodeBlock: " << name << " total_cycles: " << totalDuration << " count: " << numExecutions << " avg_cycle: " << getAvgExecutionTime() << std::endl;
 }

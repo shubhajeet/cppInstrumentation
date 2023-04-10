@@ -6,6 +6,7 @@ add_library(instrumentation STATIC
     src/FunctionTimer.cpp
     src/Instrumentor.cpp
     src/timer.cpp
+    src/cachemisscounter.cpp
 )
 
 target_include_directories(instrumentation PUBLIC include)
