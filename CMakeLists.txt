@@ -20,9 +20,9 @@ enable_testing()
 
 # set(GTEST_ROOT test)
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(mylibrary_test test/instrumentation_test.cpp)
-target_link_libraries(mylibrary_test instrumentation GTest::GTest GTest::Main)
+target_include_directories(mylibrary_test PRIVATE ${GTEST_INCLUDE_DIRS})
+target_link_libraries(mylibrary_test instrumentation ${GTEST_LIBRARIES} pthread GTEST_main)
 
 add_test(NAME mylibrary_test COMMAND mylibrary_test)
