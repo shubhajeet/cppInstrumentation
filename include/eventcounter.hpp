@@ -67,14 +67,14 @@ private:
 };
 
 template <typename T>
-class ScopeDisplay
+class ScopeCounterDisplay
 {
 public:
-    ScopeDisplay(T &obj) : m_obj(obj)
+    ScopeCounterDisplay(T &obj) : m_obj(obj)
     {
     }
 
-    ~ScopeDisplay()
+    ~ScopeCounterDisplay()
     {
         m_obj.display();
     }

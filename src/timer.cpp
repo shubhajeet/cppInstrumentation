@@ -12,7 +12,7 @@ void Timer::start()
 Timer::~Timer()
 {
     if (!m_Stopped)
-        Stop();
+        stop();
 }
 
 void Timer::stop()
@@ -24,22 +24,22 @@ void Timer::stop()
     m_Stopped = true;
 }
 
-long long Timer::getDuration()
+long long Timer::getDuration() const
 {
     return m_duration;
 }
 
-double Timer::getThroughput(long long opscount)
+double Timer::getThroughput(long long opscount) const
 {
     return opscount / m_duration;
 }
 
-auto Timer::getStart()
+auto Timer::getStart() const
 {
     return m_endTimepoint;
 }
 
-auto Timer::getEnd()
+auto Timer::getEnd() const
 {
     return m_StartTimepoint;
 }
@@ -72,10 +72,15 @@ void TSCTimer::stop()
     end_cycles = (static_cast<unsigned long long>(end_cycles_high) << 32) | end_cycles_low;
 }
 
-void TSCTimer::display() const
+long long TSCTimer::getDuration() const
 {
     unsigned long long elapsed_cycles = end_cycles - start_cycles;
     double elapsed_time_ns = elapsed_cycles / (double)2800000000 * 1000000000;
+    return elapsed_time_ns;
+}
+void TSCTimer::display() const
+{
+    auto elapsed_time_ns = getDuration();
     std::cout << "Name: " << name_ << " Elapsed time: " << elapsed_time_ns << " ns" << std::endl;
 }
 
