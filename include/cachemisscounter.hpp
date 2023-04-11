@@ -2,21 +2,24 @@
 
 #include <cstdint>
 #include <string>
+#include "objectregistry.hpp"
+#include "scope.hpp"
 
 class CacheMissCounter
 {
 public:
-    CacheMissCounter();
+    CacheMissCounter(const std::string name);
     ~CacheMissCounter();
 
     void start();
     void stop();
-
+    void display() const;
     uint64_t get_cache_misses() const;
 
 private:
     int fd_;
     uint64_t cache_misses_;
+    std::string name_;
 };
 
 class AvgCacheMissCounter
@@ -27,6 +30,7 @@ public:
 
     void start();
     void stop();
+    void display() const;
 
     double get_avg_cache_misses() const;
 
@@ -37,23 +41,10 @@ private:
     uint64_t num_samples_;
 };
 
-class ScopeCacheMissCounter
-{
-public:
-    ScopeCacheMissCounter(const std::string &name);
-    ~ScopeCacheMissCounter();
+using ScopeCacheMissCounter = Scope<CacheMissCounter>;
+using ScopeDisplayCacheMissCounter = ScopeDisplay<CacheMissCounter>;
+using ScopeAvgCacheMissCounter = Scope<AvgCacheMissCounter>;
+using ScopeDisplayAvgCacheMissCounter = ScopeDisplay<AvgCacheMissCounter>;
 
-private:
-    std::string m_name;
-    CacheMissCounter m_counter;
-};
-
-class ScopeAvgCacheMissCounter
-{
-public:
-    ScopeAvgCacheMissCounter(AvgCacheMissCounter &avgCounter);
-    ~ScopeAvgCacheMissCounter();
-
-private:
-    AvgCacheMissCounter &m_avgCounter;
-};
+using CacheMissCounterRegistry = ObjectRegistry<CacheMissCounter, std::string>;
+using CacheAvgMissCounterRegistry = ObjectRegistry<AvgCacheMissCounter, std::string>;

@@ -4,12 +4,12 @@ class Scope
 public:
     Scope(T &obj) : m_obj(obj)
     {
-        obj.start();
+        m_obj.start();
     }
 
     ~Scope()
     {
-        obj.stop();
+        m_obj.stop();
     }
 
 private:
@@ -22,13 +22,13 @@ class ScopeDisplay
 public:
     ScopeDisplay(T &obj) : m_obj(obj)
     {
-        obj.start();
+        m_obj.start();
     }
 
     ~ScopeDisplay()
     {
-        obj.stop();
-        obj.display();
+        m_obj.stop();
+        m_obj.display();
     }
 
 private:
