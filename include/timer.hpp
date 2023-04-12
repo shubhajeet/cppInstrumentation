@@ -14,7 +14,7 @@
 class Timer
 {
 public:
-    Timer(const char *name);
+    Timer(const std::string &name);
     ~Timer();
     void start();
     void stop();
@@ -26,7 +26,7 @@ public:
     operator std::string() const;
 
 private:
-    const char *m_Name;
+    const std::string &m_Name;
     std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
     std::chrono::time_point<std::chrono::high_resolution_clock> m_endTimepoint;
     bool m_Stopped;

@@ -63,7 +63,7 @@ AvgCacheMissCounter::AvgCacheMissCounter(const std::string name)
 
 void AvgCacheMissCounter::display() const
 {
-    std::cout << "Instrumentation Function: " << name_ << " cache_misses: " << total_cache_misses_ << " count: " << num_samples_ << " avg_cache_misses: " << get_avg_cache_misses() << std::endl;
+    std::cout << "AvgCacheMissCounter: " << name_ << " cache_misses: " << total_cache_misses_ << " count: " << num_samples_ << " avg_cache_misses: " << get_avg_cache_misses() << std::endl;
 }
 
 AvgCacheMissCounter::~AvgCacheMissCounter()

@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.0)
 project(instrumentation)
 file(GLOB_RECURSE CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-# add_library(instrumentation STATIC ${CPP_SOURCES})
+add_library(instrumentation STATIC ${CPP_SOURCES})
 
-add_library(instrumentation STATIC
-src/FunctionTimer.cpp
-src/Instrumentor.cpp
-src/timer.cpp
-src/cachemisscounter.cpp
-)
+# add_library(instrumentation STATIC
+# src/FunctionTimer.cpp
+# src/Instrumentor.cpp
+# src/timer.cpp
+# src/cachemisscounter.cpp
+# )
 target_include_directories(instrumentation PUBLIC include)
 
 set_target_properties(instrumentation PROPERTIES

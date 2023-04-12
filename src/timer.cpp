@@ -1,5 +1,5 @@
 #include "timer.hpp"
-Timer::Timer(const char *name)
+Timer::Timer(const std::string &name)
     : m_Name(name), m_Stopped(false), m_duration(0)
 {
 }
