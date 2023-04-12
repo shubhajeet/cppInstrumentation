@@ -53,8 +53,8 @@ using AvgTimer = Avg<Timer>;
 using AvgTSCTimer = Avg<TSCTimer>;
 using ScopeAvgTimer = Scope<AvgTimer>;
 using ScopeAvgTSCTimer = Scope<AvgTSCTimer>;
-using ScopeAvgDisplayTimer = ScopeDisplay<AvgTimer>;
-using ScopeAvgDisplayTSCTimer = ScopeDisplay<AvgTSCTimer>;
+using ScopeDisplayAvgTimer = ScopeDisplay<AvgTimer>;
+using ScopeDisplayAvgTSCTimer = ScopeDisplay<AvgTSCTimer>;
 
 using ScopeTimer = Scope<Timer>;
 using ScopeDisplayTimer = ScopeDisplay<Timer>;

@@ -47,4 +47,4 @@ using ScopeAvgCacheMissCounter = Scope<AvgCacheMissCounter>;
 using ScopeDisplayAvgCacheMissCounter = ScopeDisplay<AvgCacheMissCounter>;
 
 using CacheMissCounterRegistry = ObjectRegistry<CacheMissCounter, std::string>;
-using CacheAvgMissCounterRegistry = ObjectRegistry<AvgCacheMissCounter, std::string>;
+using AvgCacheMissCounterRegistry = ObjectRegistry<AvgCacheMissCounter, std::string>;
