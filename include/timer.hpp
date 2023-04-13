@@ -12,7 +12,8 @@
 #include "avg.hpp"
 
 #define CPU_FREQUENCY (3700000000)
-// double getTscFrequency();
+unsigned long long getTscFrequency();
+extern unsigned long long tsc_frequency;
 
 class Timer
 {
@@ -50,7 +51,6 @@ private:
     unsigned int start_cycles_low, start_cycles_high, end_cycles_low, end_cycles_high;
     unsigned long long start_cycles, end_cycles;
     std::string name_;
-    // static constexpr unsigned long long cpu_frequency = CPU_FREQUENCY * 10e6;
 };
 
 using AvgTimer = Avg<Timer>;

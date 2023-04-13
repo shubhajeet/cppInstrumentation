@@ -1,30 +1,22 @@
 #include "timer.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <chrono>
 
 // Returns the TSC clock frequency in Hz
-// double getTscFrequency()
-// {
-//     // Determine CPU core clock frequency
-//     double cpuFreq = CPU_FREQUENCY;
+unsigned long long getTscFrequency()
+{
+    std::ifstream cpuinfo("/sys/devices/system/cpu/cpu0/tsc_freq_khz");
+    std::string line;
+    std::getline(cpuinfo, line);
+    // std::cout << "string from file: " << line << std::endl;
+    unsigned long long freq = (unsigned long long)std::stoi(line) * 1000;
+    // std::cout << "int from file: " << freq << std::endl;
+    return freq;
+}
 
-//     // Read TSC twice at a known time interval (1 second)
-//     auto t1 = std::chrono::high_resolution_clock::now();
-//     uint64_t tsc1 = __rdtsc();
-//     std::this_thread::sleep_for(std::chrono::seconds(1));
-//     uint64_t tsc2 = __rdtsc();
-//     auto t2 = std::chrono::high_resolution_clock::now();
-
-//     // Calculate TSC ticks elapsed during the time interval
-//     uint64_t ticksElapsed = tsc2 - tsc1;
-
-//     // Calculate TSC clock frequency
-//     double tscFreq = ticksElapsed / std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
-
-//     // Return TSC clock frequency
-//     return tscFreq;
-// }
+unsigned long long tsc_frequency = getTscFrequency();
 
 Timer::Timer(const std::string &name)
     : m_Name(name), m_Stopped(false), m_duration(0)
@@ -103,7 +95,7 @@ long long TSCTimer::getDuration() const
 {
     unsigned long long elapsed_cycles = end_cycles - start_cycles;
     // double elapsed_time_ns = elapsed_cycles / (double) CPU_FREQUENCY2800000000 * 1000000000;
-    double elapsed_time_ns = elapsed_cycles / CPU_FREQUENCY * 10e9;
+    double elapsed_time_ns = elapsed_cycles / tsc_frequency * 10e9;
     return elapsed_time_ns;
 }
 void TSCTimer::display() const

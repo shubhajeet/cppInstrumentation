@@ -5,12 +5,14 @@
 TEST(TSCTimerTest, MeasuresOneSecond)
 {
     constexpr auto seconds = 5;
-    constexpr double tolerance = 0.1; // Allow 10% error
+    constexpr double tolerance = 0.1; // Allow 10% error    TSCTimer timer("TestTimer");
+    std::cout << "TSC frequency: " << getTscFrequency() << std::endl;
     TSCTimer timer("TestTimer");
     timer.start();
     sleep(seconds); // Wait for 1 second
     timer.stop();
     timer.display();
+    std::cout << "TSC frequency static: " << tsc_frequency << std::endl;
     double duration_ns = timer.getDuration();
     auto expected_duration_ns = seconds * 10e9;
     double error = std::abs(duration_ns - expected_duration_ns) / expected_duration_ns;
