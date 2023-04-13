@@ -1,5 +1,21 @@
 #include <gtest/gtest.h>
 #include "eventcounter.hpp"
+#include "timer.hpp"
+
+TEST(TSCTimerTest, MeasuresOneSecond)
+{
+    constexpr auto seconds = 5;
+    constexpr double tolerance = 0.1; // Allow 10% error
+    TSCTimer timer("TestTimer");
+    timer.start();
+    sleep(seconds); // Wait for 1 second
+    timer.stop();
+    timer.display();
+    double duration_ns = timer.getDuration();
+    auto expected_duration_ns = seconds * 10e9;
+    double error = std::abs(duration_ns - expected_duration_ns) / expected_duration_ns;
+    ASSERT_LE(error, tolerance) << "Measured duration: " << duration_ns << "ns, expected duration: " << expected_duration_ns << "ns";
+}
 
 TEST(EventCounterTest, CountEvents)
 {

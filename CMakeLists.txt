@@ -3,6 +3,16 @@ cmake_minimum_required(VERSION 3.0)
 project(instrumentation)
 file(GLOB_RECURSE CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
+execute_process(COMMAND cat /proc/cpuinfo OUTPUT_VARIABLE CPUINFO)
+
+# string(REGEX MATCH "cpu MHz[\\s]*:[\\s]*([0-9]+\\.[0-9]+)" CPUFREQ ${CPUINFO})
+# string(REGEX MATCH "cpu MHz[ \t]*:[ \t]*([0-9]+\\.[0-9]+)" CPUFREQ ${CPUINFO})
+# set(CPU_FREQUENCY ${CMAKE_MATCH_1})
+# message("CPUFREQ=${CPUFREQ}")
+
+# set(CPU_FREQUENCY ${CPUFREQ})
+# add_compile_definitions(CPU_FREQUENCY=${CPU_FREQUENCY})
+# message("CPU_FREQUENCY=${CPU_FREQUENCY}")
 add_library(instrumentation STATIC ${CPP_SOURCES})
 
 # add_library(instrumentation STATIC
