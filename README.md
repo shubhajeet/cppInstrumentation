@@ -1,5 +1,6 @@
 # Instrumentation library 
-
+## Install kernel module
+Follow steps from https://github.com/trailofbits/tsc_freq_khz#building-and-usage
 ## Build
 ```bash
 mkdir build
