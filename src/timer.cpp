@@ -95,13 +95,13 @@ long long TSCTimer::getDuration() const
 {
     unsigned long long elapsed_cycles = end_cycles - start_cycles;
     // double elapsed_time_ns = elapsed_cycles / (double) CPU_FREQUENCY2800000000 * 1000000000;
-    double elapsed_time_ns = elapsed_cycles / tsc_frequency * 10e9;
+    double elapsed_time_ns = elapsed_cycles / (double)tsc_frequency * 10e9;
     return elapsed_time_ns;
 }
 void TSCTimer::display() const
 {
     auto elapsed_time_ns = getDuration();
-    std::cout << "Name: " << name_ << " Elapsed time: " << elapsed_time_ns << " ns" << std::endl;
+    std::cout << "Name: " << name_ << " Elapsed time: " << elapsed_time_ns << " ns tsc_freq: " << tsc_frequency << std::endl;
 }
 
 TSCTimer::TSCTimer(std::string name) : name_(name)
