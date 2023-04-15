@@ -65,7 +65,20 @@ using ScopeDisplayTimer = ScopeDisplay<Timer>;
 using ScopeTSCTimer = Scope<TSCTimer>;
 using ScopeDisplayTSCTimer = ScopeDisplay<TSCTimer>;
 
-using TimerRegistry = ObjectRegistry<Timer, std::string>;
-using AvgTimerRegistry = ObjectRegistry<AvgTimer, std::string>;
-using TSCTimerRegistry = ObjectRegistry<TSCTimer, std::string>;
-using AvgTSCTimerRegistry = ObjectRegistry<AvgTSCTimer, std::string>;
+template <typename T = size_t>
+using TimerRegistry = ObjectRegistry<Timer, T>;
+template <typename T = size_t>
+using AvgTimerRegistry = ObjectRegistry<AvgTimer, T>;
+template <typename T = size_t>
+using TSCTimerRegistry = ObjectRegistry<TSCTimer, T>;
+template <typename T = size_t>
+using AvgTSCTimerRegistry = ObjectRegistry<AvgTSCTimer, T>;
+
+template <int size>
+using SimpleTimerRegistry = SimpleObjectRegistry<Timer, size>;
+template <int size>
+using SimpleAvgTimerRegistry = SimpleObjectRegistry<AvgTimer, size>;
+template <int size>
+using SimpleTSCTimerRegistry = SimpleObjectRegistry<TSCTimer, size>;
+template <int size>
+using SimpleAvgTSCTimerRegistry = SimpleObjectRegistry<AvgTSCTimer, size>;

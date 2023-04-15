@@ -1,6 +1,56 @@
 #pragma once
 #include <unordered_map>
+#include <map>
 #include <iostream>
+
+template <typename T, size_t size = 5>
+class SimpleObjectRegistry
+{
+public:
+    template <typename... Args>
+    T *registerObject(size_t id, Args &&...args)
+    {
+        if (objects_[id] == nullptr)
+        {
+        }
+        objects_[id] = new T(std::forward<Args>(args)...);
+        return getObject(id);
+    }
+
+    T *getObject(size_t id)
+    {
+        if (id >= size)
+        {
+            throw std::out_of_range("ObjectRegistry: ID not found.");
+        }
+        else
+        {
+            return objects_[id];
+        }
+    }
+
+    SimpleObjectRegistry(const SimpleObjectRegistry &) = delete;
+    SimpleObjectRegistry &operator=(const SimpleObjectRegistry &) = delete;
+
+    SimpleObjectRegistry(std::string name = "global") : name_(name) {}
+    ~SimpleObjectRegistry()
+    {
+        for (auto i = 0; i < size; i++)
+        {
+
+            auto obj = objects_[i];
+            if (obj == nullptr)
+            {
+                continue;
+            }
+            std::cout << "register: " << name_ << " objectid: " << i << " ";
+            obj->display();
+            delete obj;
+        }
+    }
+    std::string name_;
+    T *objects_[size];
+};
 
 template <typename T, typename ID_T>
 class ObjectRegistry
@@ -37,18 +87,18 @@ public:
     ObjectRegistry(const ObjectRegistry &) = delete;
     ObjectRegistry &operator=(const ObjectRegistry &) = delete;
 
-    ObjectRegistry() {}
+    ObjectRegistry(std::string name = "global") : name_(name) {}
     ~ObjectRegistry()
     {
         for (auto &i : objects_)
         {
-            std::cout << "object id: " << i.first << " ";
+            std::cout << "register: " << name_ << " objectid: " << i.first << " ";
             i.second->display();
             delete i.second;
         }
     }
-
-    std::unordered_map<ID_T, T *> objects_;
+    std::string name_;
+    std::map<ID_T, T *> objects_;
 };
 
 template <typename T>
