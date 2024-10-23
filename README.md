@@ -3,6 +3,7 @@
 ## Build
 ```bash
 mkdir build
+cd buiid
 cmake -DCMAKE_BUILD_TYPE=Release .. & make -j
 ```
 
