@@ -1,7 +1,14 @@
 #pragma once
+// Code by Sujit Maharjan
+// Implements SimpleObjectRegistry
+// registerObject -> takes id and forwards argument to object created
+
 #include <unordered_map>
 #include <map>
 #include <iostream>
+/**
+ *
+ */
 
 template <typename T, size_t size = 5>
 class SimpleObjectRegistry

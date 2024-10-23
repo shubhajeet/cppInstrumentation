@@ -1,4 +1,14 @@
 #pragma once
+// The code by Sujit Maharjan
+// Use to instrument the code.
+// Implements SimpleCounter that has a name and counter
+// count() -> increases counter
+// display() -> outputs the count value
+// getCount() -> gets the counter value
+// Counter ->
+// ScopeCounter ->
+// ScopeDisplayCounter ->
+// CounterRegistry -> Registry of Counter
 #include <iostream>
 #include <unordered_map>
 #include "objectregistry.hpp"

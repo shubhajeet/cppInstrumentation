@@ -1,4 +1,7 @@
 #pragma once
+// Code by Sujit Maharjan
+// Scope -> call start at creation and stop at destruction
+// ScopeDisplay -> call start at creation and stop and display at destruction
 template <typename T>
 class Scope
 {
