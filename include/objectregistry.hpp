@@ -90,12 +90,51 @@ public:
             throw std::out_of_range("ObjectRegistry: ID not found.");
         }
     }
+    void resetObject(ID_T id)
+    {
+        auto it = objects_.find(id);
+        if (it != objects_.end())
+        {
+            it->second->reset();
+        }
+        else
+        {
+            throw std::out_of_range("ObjectRegistry: ID not found.");
+        }
+    }
+
+    template <typename... Args>
+    T *getObjectorCreate(ID_T id, Args &&...args)
+    {
+        auto it = objects_.find(id);
+        if (it != objects_.end())
+        {
+            return it->second;
+        }
+        else
+        {
+            return registerObject(id, std::forward<Args>(args)...);
+        }
+    }
 
     ObjectRegistry(const ObjectRegistry &) = delete;
     ObjectRegistry &operator=(const ObjectRegistry &) = delete;
 
     ObjectRegistry(std::string name = "global") : name_(name) {}
     ~ObjectRegistry()
+    {
+        display();
+    }
+    void reset()
+    {
+        for (auto &i : objects_)
+        {
+            std::cout << "register: " << name_ << " objectid: " << i.first << " ";
+            i.second->reset();
+            delete i.second;
+        }
+    }
+    void display()
     {
         for (auto &i : objects_)
         {

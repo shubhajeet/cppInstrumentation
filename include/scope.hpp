@@ -16,6 +16,11 @@ public:
         m_obj.stop();
     }
 
+    T *operator->()
+    {
+        return &m_obj;
+    }
+
 private:
     T &m_obj;
 };
@@ -33,6 +38,11 @@ public:
     {
         m_obj.stop();
         m_obj.display();
+    }
+
+    T *operator->()
+    {
+        return &m_obj;
     }
 
 private:

@@ -29,6 +29,10 @@ public:
     {
         count();
     }
+    void reset()
+    {
+        counter = 0;
+    }
     inline void count()
     {
         counter++;
