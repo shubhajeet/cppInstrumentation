@@ -55,6 +55,20 @@ public:
             delete obj;
         }
     }
+    void display()
+    {
+        for (auto i = 0; i < size; i++)
+        {
+
+            auto obj = objects_[i];
+            if (obj == nullptr)
+            {
+                continue;
+            }
+            std::cout << "register: " << name_ << " objectid: " << i << " ";
+            obj->display();
+        }
+    }
     std::string name_;
     T *objects_[size];
 };
@@ -124,6 +138,10 @@ public:
     ~ObjectRegistry()
     {
         display();
+        for (auto &i : objects_)
+        {
+            delete i.second;
+        }
     }
     void reset()
     {
@@ -131,7 +149,7 @@ public:
         {
             std::cout << "register: " << name_ << " objectid: " << i.first << " ";
             i.second->reset();
-            delete i.second;
+            // delete i.second;
         }
     }
     void display()
@@ -140,7 +158,6 @@ public:
         {
             std::cout << "register: " << name_ << " objectid: " << i.first << " ";
             i.second->display();
-            delete i.second;
         }
     }
     std::string name_;
