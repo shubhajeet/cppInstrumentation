@@ -37,6 +37,10 @@ public:
     {
         counter++;
     }
+    inline void add(T amount)
+    {
+        counter = counter + amount;
+    }
 
     int getCount() const
     {
